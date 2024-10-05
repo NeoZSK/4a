@@ -8,6 +8,11 @@ namespace GooseJump
         public int X { get; set; } = x;
         public int Y { get; set; } = y;
 
+        public static Coords operator -(Coords c1, Coords c2)
+        {
+            return new Coords(c1.X - c2.X, c1.Y - c2.Y);
+        }
+
 
     }
 
@@ -25,7 +30,13 @@ namespace GooseJump
             {
                 for (int j = 0; j < Height; j++)
                 {
-                    Console.SetCursorPosition(Pos.X + i + mapPos.X, mapPos.Y - (Pos.Y + j));
+                    int left = Pos.X + i + mapPos.X;
+                    int top = mapPos.Y - (Pos.Y + j);
+                    if (left < 0 || left > Console.WindowWidth
+                        || top < 0 || top > Console.WindowHeight)
+                        continue;
+
+                    Console.SetCursorPosition(left, top);
                     Console.Write(Symbol);
                 }
             }
@@ -36,7 +47,7 @@ namespace GooseJump
 
     public class Goose : Model
     {
-        private int VelocityY { get; set; } = 0;
+        private float VelocityY { get; set; } = 0;
 
         public Goose(int posX)
         {
@@ -68,11 +79,15 @@ namespace GooseJump
             if (Pos.Y != 1 || VelocityY != 0)
             {
 
-                Pos.Y += VelocityY;
-                VelocityY--;
+                Pos.Y += (int)VelocityY;
+                VelocityY -= 0.9f;
 
                 if (Pos.Y <= 1)
+                {
                     VelocityY = 0;
+                    Pos.Y = 1;
+                }
+
             }
         }
 
@@ -93,16 +108,18 @@ namespace GooseJump
     public class Map()
     {
         private Coords DrawingStart { get; set; } = new(0, Console.WindowHeight / 2);
+        private Coords CurrentPos { get; set; } = new();
         public int Width { get; } = Console.WindowWidth;
 
         private Queue<Obstacle> Obstacles = new();
+
 
         public void Setup()
         {
 
             for (int i = 0; i < 5; i++)
             {
-                var nextObstacle = new Obstacle(2, 1, 50 + i * 15, 1);
+                var nextObstacle = new Obstacle(3, 2, 50 + i * 15, 1);
                 Obstacles.Enqueue(nextObstacle);
             }
         }
@@ -116,13 +133,13 @@ namespace GooseJump
 
 
             foreach (Obstacle o in Obstacles)
-                o.Draw(DrawingStart);
+                o.Draw(DrawingStart - CurrentPos);
 
         }
 
         public void Move()
         {
-            //CurrentX++;
+            CurrentPos.X++;
             //if (Obstacles.Count > 0 && Obstacles.First().PosX <= CurrentX)
             //    Obstacles.Dequeue();
 
@@ -131,7 +148,7 @@ namespace GooseJump
         private void GenerateNextObstacle()
         {
 
-            var nextObstacle = new Obstacle(2, 1, DrawingStart.X + Width, 1);
+            var nextObstacle = new Obstacle(3, 2, DrawingStart.X + Width, 1);
             Obstacles.Enqueue(nextObstacle);
 
         }

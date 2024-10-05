@@ -19,7 +19,7 @@ while (true)
         var key = Console.ReadKey(true);
 
         if (key.Key == ConsoleKey.W)
-            player.Jump(2);
+            player.Jump(3);
 
         if (key.Key == ConsoleKey.A)
             player.MoveLeft();
@@ -27,17 +27,11 @@ while (true)
         if (key.Key == ConsoleKey.D)
             player.MoveRight();
 
-        player.Draw(drawingStart);
-
     }
+
     player.CalculateNextPosition();
-
-
     Thread.Sleep(20);
-
-
-    //map.Move();
-
+    map.Move();
 }
 
 
