@@ -16,6 +16,26 @@ namespace GooseJump
             Console.SetCursorPosition(tempPos.Left, tempPos.Top);
         }
 
+        public void Jump(int power)
+        {
+            if (PosY != 0) return;
+            VelocityY = power;
+        }
+
+        public void Move()
+        {
+            CalculateNextPosition();
+        }
+
+        private void CalculateNextPosition()
+        {
+
+            PosY += VelocityY;
+            VelocityY--;
+
+            if (PosY <= 0) 
+                VelocityY = 0;
+        }
 
 
     }

@@ -1,10 +1,28 @@
-﻿namespace GooseJump
+﻿using GooseJump;
+
+
+var map = new Map();
+var player = new Goose(map.Width / 5);
+
+
+while (true)
 {
-    internal class Program
+    map.Draw();
+    player.Draw();
+
+    if(Console.KeyAvailable)
     {
-        static void Main(string[] args)
+        var key = Console.ReadKey();
+        if(key.Key == ConsoleKey.W)
         {
-            Console.WriteLine("Hello, World!");
+            Console.WriteLine("JUMP");
+            player.Jump(2);
         }
     }
+
+    Thread.Sleep(100);
+    Console.Clear();
+    player.Move();
 }
+
+
