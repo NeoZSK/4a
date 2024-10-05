@@ -21,7 +21,9 @@ while (true)
 
     Thread.Sleep(50);
     Console.Clear();
+
     player.Move();
+    map.Move();
 }
 
 
