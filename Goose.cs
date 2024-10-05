@@ -1,108 +1,142 @@
 ﻿
+using System.Linq.Expressions;
+
 namespace GooseJump
 {
-    internal class Goose(int posX)
+    public class Coords(int x = 0, int y = 0)
     {
-        public int PosY { get; private set; } = 0;
-        public int PosX { get; } = posX;
+        public int X { get; set; } = x;
+        public int Y { get; set; } = y;
 
+
+    }
+
+    public abstract class Model
+    {
+        // X, Y from left, bottom of MAP
+        public Coords Pos { get; set; } = new Coords();
+        public int Width { get; protected set; } = 1;
+        public int Height { get; protected set; } = 1;
+        protected char Symbol { get; set; } = '#';
+
+        public virtual void Draw(Coords mapPos)
+        {
+            for (int i = 0; i < Width; i++)
+            {
+                for (int j = 0; j < Height; j++)
+                {
+                    Console.SetCursorPosition(Pos.X + i + mapPos.X, mapPos.Y - (Pos.Y + j));
+                    Console.Write(Symbol);
+                }
+            }
+
+        }
+
+    }
+
+    public class Goose : Model
+    {
         private int VelocityY { get; set; } = 0;
 
-        public void Draw()
+        public Goose(int posX)
         {
-            var tempPos = Console.GetCursorPosition();
-            Console.SetCursorPosition(PosX, Console.WindowHeight / 2 - 1 - PosY);
-            Console.Write("*");
-            Console.SetCursorPosition(tempPos.Left, tempPos.Top);
+            Pos.X = posX;
+            Pos.Y = 1;
+            Symbol = '*';
         }
+
 
         public void Jump(int power)
         {
-            if (PosY != 0) return;
+            if (Pos.Y != 1) return;
             VelocityY = power;
         }
 
-        public void Move()
+        public void MoveLeft()
         {
-            CalculateNextPosition();
+            Pos.X--;
         }
 
-        private void CalculateNextPosition()
+        public void MoveRight()
         {
+            Pos.X++;
+        }
 
-            PosY += VelocityY;
-            VelocityY--;
+        public void CalculateNextPosition()
+        {
+            //PosX++;
+            if (Pos.Y != 1 || VelocityY != 0)
+            {
 
-            if (PosY <= 0)
-                VelocityY = 0;
+                Pos.Y += VelocityY;
+                VelocityY--;
+
+                if (Pos.Y <= 1)
+                    VelocityY = 0;
+            }
         }
 
 
     }
 
-    public struct Obstacle
+    internal class Obstacle : Model
     {
-        public int Height { get; set; }
-        public int PosX { get; set; }
+        public Obstacle(int h, int w, int x, int y)
+        {
+            Height = h;
+            Width = w;
+            Pos.X = x;
+            Pos.Y = y;
+        }
     }
 
-    internal class Map()
+    public class Map()
     {
-        private int MapYPos { get; } = Console.WindowHeight / 2;
+        private Coords DrawingStart { get; set; } = new(0, Console.WindowHeight / 2);
         public int Width { get; } = Console.WindowWidth;
-        private const int OBSTACLE_HEIGHT_MAX = 1;
-        private int CurrentX { get; set; } = 0;
+
         private Queue<Obstacle> Obstacles = new();
+
+        public void Setup()
+        {
+
+            for (int i = 0; i < 5; i++)
+            {
+                var nextObstacle = new Obstacle(2, 1, 50 + i * 15, 1);
+                Obstacles.Enqueue(nextObstacle);
+            }
+        }
 
         public void Draw()
         {
-            Console.SetCursorPosition(0, MapYPos);
+            Console.SetCursorPosition(0, DrawingStart.Y);
 
             for (int i = 0; i < Width; i++)
                 Console.Write("-");
 
 
             foreach (Obstacle o in Obstacles)
-            {
-                int h = 1;
-                while (h <= o.Height)
-                {
-                    Console.SetCursorPosition(o.PosX - CurrentX, MapYPos - h);
-                    Console.Write("#");
-                    h++;
-                }
+                o.Draw(DrawingStart);
 
-            }
         }
 
         public void Move()
         {
-            CurrentX++;
-            if (Obstacles.Count > 0 && Obstacles.First().PosX <= CurrentX)
-                Obstacles.Dequeue();
-
-            var rand = new Random();
-            if (rand.Next() % 5 == 0)
-            {
-                GenerateNextObstacle();
-            }
-
-
+            //CurrentX++;
+            //if (Obstacles.Count > 0 && Obstacles.First().PosX <= CurrentX)
+            //    Obstacles.Dequeue();
 
         }
 
         private void GenerateNextObstacle()
         {
-            var rand = new Random();
-            int height = rand.Next() % OBSTACLE_HEIGHT_MAX + 1;
-            var nextObstacle = new Obstacle
-            {
-                Height = height,
-                PosX = CurrentX + Width - 1
-            };
 
+            var nextObstacle = new Obstacle(2, 1, DrawingStart.X + Width, 1);
             Obstacles.Enqueue(nextObstacle);
 
         }
+
+        public Coords GetDrawingStartCoords() => DrawingStart;
+
     }
 }
