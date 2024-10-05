@@ -43,6 +43,19 @@ namespace GooseJump
 
         }
 
+        public static bool CheckCollision(Model m1, Model m2)
+        {
+            return (
+                m1.Pos.X < m2.Pos.X + m2.Width &&
+                m1.Pos.Y < m2.Pos.Y + m2.Height &&
+                m1.Pos.X + m1.Width > m2.Pos.X &&
+                m1.Pos.Y + m1.Height > m2.Pos.Y
+            );
+
+        }
+
+
+
     }
 
     public class Goose : Model
@@ -75,7 +88,7 @@ namespace GooseJump
 
         public void CalculateNextPosition()
         {
-            //PosX++;
+            Pos.X++;
             if (Pos.Y != 1 || VelocityY != 0)
             {
 
@@ -92,9 +105,11 @@ namespace GooseJump
         }
 
 
+
+
     }
 
-    internal class Obstacle : Model
+    public class Obstacle : Model
     {
         public Obstacle(int h, int w, int x, int y)
         {
@@ -111,7 +126,7 @@ namespace GooseJump
         private Coords CurrentPos { get; set; } = new();
         public int Width { get; } = Console.WindowWidth;
 
-        private Queue<Obstacle> Obstacles = new();
+        public Queue<Obstacle> Obstacles = new();
 
 
         public void Setup()
@@ -153,7 +168,7 @@ namespace GooseJump
 
         }
 
-        public Coords GetDrawingStartCoords() => DrawingStart;
+        public Coords GetMapPos() => DrawingStart - CurrentPos;
 
     }
 }
