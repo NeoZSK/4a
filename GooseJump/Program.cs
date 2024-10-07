@@ -18,7 +18,7 @@ while (!gameOver)
 
     while(Console.KeyAvailable)
     {
-        var key = Console.ReadKey(true);
+         var key = Console.ReadKey(true);
 
         if (key.Key == ConsoleKey.Spacebar)
             player.Jump(3);

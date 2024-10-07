@@ -162,13 +162,13 @@ namespace GooseJump
 
         private void GenerateNextObstacle()
         {
-
+                                           
             var nextObstacle = new Obstacle(3, 2, DrawingStart.X + Width, 1);
             Obstacles.Enqueue(nextObstacle);
-
-        }
+                                           
+        }                                  
 
         public Coords GetMapPos() => DrawingStart - CurrentPos;
-
+                                           
     }
 }
