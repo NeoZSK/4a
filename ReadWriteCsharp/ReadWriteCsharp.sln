@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadWriteCsharp", "ReadWriteCsharp.csproj", "{77D1367D-5659-463F-9193-0184F5272C68}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{77D1367D-5659-463F-9193-0184F5272C68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77D1367D-5659-463F-9193-0184F5272C68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77D1367D-5659-463F-9193-0184F5272C68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77D1367D-5659-463F-9193-0184F5272C68}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6C57F8B9-CAF6-4015-B08B-14E855128332}
+	EndGlobalSection
+EndGlobal
