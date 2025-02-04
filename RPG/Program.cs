@@ -5,15 +5,14 @@ const char PLAYER = '*';
 const char WALL = '#';
 const char GROUND = '.';
 
-
 Position playerPos = new Position()
 {
     X = 0,
     Y = 0
 };
-
-
+List<string> playerEq = new List<string>();   
 char[,] map;
+
 ImportBoard(out map);
 
 while (true)
@@ -45,8 +44,7 @@ void Move(char[,] board, ref Position playerPos)
             break;
     }
 
-    UpdatePosition(ref playerPos, nextPos, board);
-
+    UpdatePosition(ref playerPos, nextPos, board)
 }
 
 void UpdatePosition(ref Position entityPos, Position nextPos, char[,] board)
@@ -56,7 +54,6 @@ void UpdatePosition(ref Position entityPos, Position nextPos, char[,] board)
     {
         entityPos = nextPos;
     }
-
 }
 
 char GetBoardTile(char[,] board, Position pos)
@@ -68,7 +65,7 @@ char GetBoardTile(char[,] board, Position pos)
 
 bool IsSteppable(char tile)
 {
-    char[] steppableTiles = { GROUND };
+    char[] steppableTiles = { GROUND,  };
     return steppableTiles.Contains(tile);
 }
 void Draw(char[,] map, Position playerPos)
@@ -101,7 +98,6 @@ void ImportBoard(out char[,] map)
         char[] linia = lines[i].ToCharArray();
         for (int j = 0; j < width; j++)
         {
-
             map[j, i] = linia[j];
         }
     }
