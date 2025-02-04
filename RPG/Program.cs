@@ -1,5 +1,6 @@
 ﻿const string ROOT_DATA_PATH = @"C:\Users\User\Documents\data";
 const string MAP_PATH = ROOT_DATA_PATH + @"\map.txt";
+
 const char PLAYER = '*';
 const char WALL = '#';
 const char GROUND = '.';
@@ -14,23 +15,6 @@ Position playerPos = new Position()
 
 char[,] map;
 ImportBoard(out map);
-
-void ImportBoard(out char[,] map)
-{
-    string[] lines = File.ReadAllLines(MAP_PATH);
-    int height = lines.Length;
-    int width = lines[0].Length;
-    map = new char[width, height];
-    for (int i = 0; i < height; i++)
-    {
-        char[] linia = lines[i].ToCharArray();
-        for (int j = 0; j < width; j++)
-        {
-
-            map[j, i] = linia[j];
-        }
-    }
-}
 
 while (true)
 {
@@ -106,6 +90,22 @@ void Draw(char[,] map, Position playerPos)
     }
 }
 
+void ImportBoard(out char[,] map)
+{
+    string[] lines = File.ReadAllLines(MAP_PATH);
+    int height = lines.Length;
+    int width = lines[0].Length;
+    map = new char[width, height];
+    for (int i = 0; i < height; i++)
+    {
+        char[] linia = lines[i].ToCharArray();
+        for (int j = 0; j < width; j++)
+        {
+
+            map[j, i] = linia[j];
+        }
+    }
+}
 
 struct Position
 {
