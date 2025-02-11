@@ -87,11 +87,11 @@
 string rootPath = @"C:\Users\User\Documents\data";
 string path = rootPath + @"\map.txt";
 
-if (File.Exists(path))
-{
-    string fileText = File.ReadAllText(path);
-    Console.WriteLine(fileText);
-}
+//if (File.Exists(path))
+//{
+//    string fileText = File.ReadAllText(path);
+//    Console.WriteLine(fileText);
+//}
 
 
 string[] lines = File.ReadAllLines(path);
