@@ -8,9 +8,9 @@ namespace RPG
         public const char GROUND = '.';
 
         private const string ROOT_DATA_PATH = @"C:\Users\User\Documents\data";
-        private const string MAP_PATH = ROOT_DATA_PATH + @"\map.txt";
+        private const string MAIN_MAP_PATH = ROOT_DATA_PATH + @"\map.txt";
 
-        private char[,] _board;
+        private char[,] _board = new char[0,0];
 
         public void Draw( Position playerPos)
         {
@@ -31,9 +31,9 @@ namespace RPG
             }
         }
 
-        public void ImportBoard()
+        public void ImportBoard(string path = MAIN_MAP_PATH)
         {
-            string[] lines = File.ReadAllLines(MAP_PATH);
+            string[] lines = File.ReadAllLines(MAIN_MAP_PATH);
             int height = lines.Length;
             int width = lines[0].Length;
             _board = new char[width, height];
